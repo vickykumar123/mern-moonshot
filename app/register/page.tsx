@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import React, {useState} from "react";
 
 function SignIn() {
@@ -93,12 +94,12 @@ function SignIn() {
           >
             Sign Up
           </button>
-          <a
-            className="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800"
-            href="#"
+          <Link
+            href="/login"
+            className="bg-blue-500  hover:bg-blue-700 text-white font-bold py-2  px-4 rounded  focus:outline-none  focus:shadow-outline"
           >
-            Have an account? Sign in
-          </a>
+            Login
+          </Link>
         </div>
       </form>
     </div>

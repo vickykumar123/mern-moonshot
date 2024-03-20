@@ -1,3 +1,4 @@
+import {createJWTandCookie} from "@/lib/JWTandCookie";
 import {db} from "@/lib/db";
 import {SHA256 as sha256} from "crypto-js";
 import {NextResponse} from "next/server";
@@ -23,6 +24,7 @@ export async function POST(req: Request) {
       },
     });
 
+    createJWTandCookie(user?.id);
     return NextResponse.json(user);
   } catch (err) {
     return new NextResponse("Signup Error", {status: 500});
