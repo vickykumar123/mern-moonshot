@@ -1,11 +1,12 @@
 "use client";
 
+import {useRouter} from "next/navigation";
 import React, {useState} from "react";
 
-function SignIn() {
-  const [name, setName] = useState("");
+function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const router = useRouter();
 
   async function handleSubmit(e: React.FormEvent<EventTarget>) {
     e.preventDefault();
@@ -16,7 +17,7 @@ function SignIn() {
     };
 
     // Make call to backend to create user
-    const res = await fetch("/api/sign-up", {
+    const res = await fetch("/api/sign-in", {
       method: "POST",
       body: JSON.stringify(userData),
       headers: {
@@ -26,6 +27,9 @@ function SignIn() {
 
     const data = await res.json();
     console.log(data);
+    if (data) {
+      router.push("/dashboard");
+    }
   }
   return (
     <div className="flex justify-center items-center m-auto p-3">
@@ -33,24 +37,6 @@ function SignIn() {
         onSubmit={handleSubmit}
         className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
       >
-        <div className="mb-4">
-          <label
-            className="block text-gray-700 text-sm font-bold mb-2"
-            htmlFor="name"
-          >
-            Name
-          </label>
-          <input
-            className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline`}
-            id="name"
-            type="text"
-            placeholder="name"
-            onChange={(e) => {
-              setName(e.target.value);
-            }}
-          />
-        </div>
-
         <div className="mb-4">
           <label
             className="block text-gray-700 text-sm font-bold mb-2"
@@ -93,16 +79,10 @@ function SignIn() {
           >
             Sign Up
           </button>
-          <a
-            className="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800"
-            href="#"
-          >
-            Have an account? Sign in
-          </a>
         </div>
       </form>
     </div>
   );
 }
 
-export default SignIn;
+export default Login;

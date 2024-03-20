@@ -2,7 +2,7 @@ import {db} from "@/lib/db";
 import {SHA256 as sha256} from "crypto-js";
 import {NextResponse} from "next/server";
 
-const hashPassword = (password: string) => {
+export const hashPassword = (password: string) => {
   return sha256(password).toString();
 };
 export async function POST(req: Request) {
