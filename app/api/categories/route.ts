@@ -9,7 +9,7 @@ export async function PATCH(req: Request) {
       return new NextResponse("Unauthorized", {status: 401});
     }
     const {category} = await req.json();
-    console.log(category + " from server");
+
     const user = await db.user.update({
       where: {id: currentUser.id},
       data: {

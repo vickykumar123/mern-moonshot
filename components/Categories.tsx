@@ -1,14 +1,18 @@
 "use client";
-
-import {getCurrentUser} from "@/lib/user";
 import {useEffect, useState} from "react";
+import Pagination from "./Pagination";
 
 interface Data {
   id: string;
   name: string;
 }
 
-export default function Categories({data, interestedIn}: any) {
+export default function Categories({
+  data,
+  interestedIn,
+  totalPages,
+  totalCount,
+}: any) {
   const [interestedCategory, setInterestedCategory] =
     useState<string[]>(interestedIn);
 
@@ -41,20 +45,31 @@ export default function Categories({data, interestedIn}: any) {
   }, [interestedCategory]);
 
   return (
-    <div>
-      <form>
+    <div className="w-full flex items-center justify-center p-5 mt-4 box-border">
+      <form className="bg-white shadow-md p-12 mb-4 h-[658px] w-[576px] rounded-[20px] border-[1px] border-[#C1C1C1] space-y-7 flex flex-col">
+        <div className=" text-[32px] font-[600] space-y-7 text-center">
+          <section>Please mark your interest!</section>
+          <section>
+            <p className="text-[16px] font-[400]">We will keep you notified</p>
+          </section>
+        </div>
+        <p className="text-[20px] font-[500]">My saved interests!</p>
         {data.map((category: Data) => (
-          <div key={category.id}>
+          <div key={category.id} className="flex gap-2">
             <input
               type="checkbox"
               id={category.id}
               defaultChecked={interestedIn.includes(category.name)}
               name={category.name}
               onChange={handleChange}
+              className="appearance-none w-[24px] h-[24px] rounded-[4px]  bg-[#CCCCCC]  border-gray-300 checked:bg-black"
             />
-            <span>{category.name}</span>
+            <label htmlFor={category.id} className="text-[16px] font-[400]">
+              {category.name}
+            </label>
           </div>
         ))}
+        <Pagination totalPages={totalPages} />
       </form>
     </div>
   );

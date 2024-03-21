@@ -20,11 +20,13 @@ export default async function Dashboard({
     limit: PAGE_LIMIT,
   });
 
-  // console.log(offset);
   return (
     <div>
-      <Categories data={data} interestedIn={user?.interestedIn} />
-      <Pagination totalPages={totalPages} />
+      <Categories
+        data={data}
+        interestedIn={user?.interestedIn}
+        totalPages={totalPages}
+      />
     </div>
   );
 }
