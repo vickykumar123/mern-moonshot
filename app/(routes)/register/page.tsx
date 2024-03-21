@@ -1,5 +1,6 @@
 "use client";
 
+import Input from "@/components/ui/Input";
 import Link from "next/link";
 import {useRouter} from "next/navigation";
 import React, {useState} from "react";
@@ -8,6 +9,8 @@ function SignIn() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [typePassword, setTypePassword] = useState("password");
+  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
   async function handleSubmit(e: React.FormEvent<EventTarget>) {
@@ -17,19 +20,33 @@ function SignIn() {
       email,
       password,
     };
+    try {
+      setIsLoading(true);
+      const res = await fetch("/api/sign-up", {
+        method: "POST",
+        body: JSON.stringify(userData),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
 
+      const data = await res.json();
+      if (data) {
+        router.push("/dashboard");
+      }
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setIsLoading(false);
+    }
     // Make call to backend to create user
-    const res = await fetch("/api/sign-up", {
-      method: "POST",
-      body: JSON.stringify(userData),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+  }
 
-    const data = await res.json();
-    if (data) {
-      router.push("/dashboard");
+  function handlePasswordToggle() {
+    if (typePassword === "password") {
+      setTypePassword("text");
+    } else {
+      setTypePassword("password");
     }
   }
   return (
@@ -41,41 +58,19 @@ function SignIn() {
         <h2 className="text-center text-[32px] font-[600]">
           Create your account
         </h2>
-        <div className=" h-[74px]">
-          <label
-            className="  text-[16px] font-[400] mb-2 flex flex-col"
-            htmlFor="name"
-          >
-            Name
-          </label>
-          <input
-            className={`shadow appearance-none border-[1px] border-[#C1C1C1] rounded-[6px] w-[456px] py-2 px-3  leading-tight focus:outline-none focus:shadow-outline`}
-            id="name"
-            type="text"
-            placeholder="Name"
-            onChange={(e) => {
-              setName(e.target.value);
-            }}
-          />
-        </div>
+        <Input
+          label="Name"
+          onChange={(e) => {
+            setName(e.target.value);
+          }}
+        />
+        <Input
+          label="Email"
+          onChange={(e) => {
+            setEmail(e.target.value);
+          }}
+        />
 
-        <div className="mb-4">
-          <label
-            className="  text-[16px] font-[400] mb-2 flex flex-col"
-            htmlFor="email"
-          >
-            Email
-          </label>
-          <input
-            className={`shadow appearance-none border-[1px] border-[#C1C1C1] rounded-[6px] w-[456px] py-2 px-3  leading-tight focus:outline-none focus:shadow-outline`}
-            id="email"
-            type="email"
-            placeholder="Email"
-            onChange={(e) => {
-              setEmail(e.target.value);
-            }}
-          />
-        </div>
         <div className="mb-6">
           <label
             className="  text-[16px] font-[400] mb-2 flex flex-col"
@@ -83,23 +78,31 @@ function SignIn() {
           >
             Password
           </label>
-          <input
-            className={`shadow appearance-none border-[1px] border-[#C1C1C1] rounded-[6px] w-[456px] py-2 px-3  leading-tight focus:outline-none focus:shadow-outline`}
-            id="password"
-            type="password"
-            placeholder="***********"
-            onChange={(e) => {
-              setPassword(e.target.value);
-            }}
-          />
+          <div className="relative w-full">
+            <input
+              className={`  shadow appearance-none border-[1px] border-[#C1C1C1] rounded-[6px] w-[459px] py-2 px-3  leading-tight focus:outline-none focus:shadow-outline`}
+              id="password"
+              type={typePassword}
+              placeholder="***********"
+              onChange={(e) => {
+                setPassword(e.target.value);
+              }}
+            />
+            <span
+              className="absolute right-2 top-2 underline cursor-pointer"
+              onClick={handlePasswordToggle}
+            >
+              {typePassword === "password" ? "Show" : "Hide"}
+            </span>
+          </div>
         </div>
 
         <div className="flex items-center justify-between">
           <button
-            className="bg-black text-white  p-2 rounded-md uppercase w-[456px]"
-            type="submit"
+            className="bg-black text-white  p-2 rounded-md uppercase w-[456px] disabled:opacity-85"
+            disabled={isLoading}
           >
-            Create Account
+            {isLoading ? "Creating..." : "Create Account"}
           </button>
         </div>
         <div>
