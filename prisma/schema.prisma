@@ -19,7 +19,7 @@ model User {
   email         String?   @unique
   password      String
   isEmailVerified Boolean @default(false)
-  interestedIn Json
+  interestedIn String[]
   createdAt     DateTime  @default(now()) @map(name: "created_at")
   updatedAt     DateTime  @updatedAt @map(name: "updated_at")
 }

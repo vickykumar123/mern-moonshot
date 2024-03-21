@@ -15,6 +15,8 @@ export async function getCurrentUser() {
     select: {
       name: true,
       email: true,
+      interestedIn: true,
+      id: true,
       password: false,
     },
   });
