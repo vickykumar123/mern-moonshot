@@ -1,12 +1,14 @@
 "use client";
 
 import Link from "next/link";
+import {useRouter} from "next/navigation";
 import React, {useState} from "react";
 
 function SignIn() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const router = useRouter();
 
   async function handleSubmit(e: React.FormEvent<EventTarget>) {
     e.preventDefault();
@@ -26,7 +28,9 @@ function SignIn() {
     });
 
     const data = await res.json();
-    console.log(data);
+    if (data) {
+      router.push("/dashboard");
+    }
   }
   return (
     <div className="flex justify-center items-center m-auto p-3">

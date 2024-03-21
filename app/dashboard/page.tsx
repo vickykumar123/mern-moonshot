@@ -1,7 +1,6 @@
-import {getUser} from "@/lib/user";
+import {getCurrentUser} from "@/lib/user";
 
 export default async function page() {
-  const user = await getUser();
-  console.log(user);
+  const user = await getCurrentUser();
   return <div>dashboard</div>;
 }

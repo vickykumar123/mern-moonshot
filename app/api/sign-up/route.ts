@@ -1,10 +1,11 @@
 import {createJWTandCookie} from "@/lib/JWTandCookie";
 import {db} from "@/lib/db";
-import {SHA256 as sha256} from "crypto-js";
+import bcrypt from "bcryptjs";
 import {NextResponse} from "next/server";
 
-export const hashPassword = (password: string) => {
-  return sha256(password).toString();
+const hashPassword = async (password: string) => {
+  const passwordHash = await bcrypt.hash(password, 12);
+  return passwordHash;
 };
 export async function POST(req: Request) {
   try {
@@ -14,12 +15,13 @@ export async function POST(req: Request) {
         status: 400,
       });
     }
+    const passwordHash = await hashPassword(password);
 
     const user = await db.user.create({
       data: {
         name,
         email,
-        password: hashPassword(password),
+        password: passwordHash,
         interestedIn: [],
       },
     });

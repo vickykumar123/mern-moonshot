@@ -1,8 +1,12 @@
-import {db} from "@/lib/db";
-import {SHA256 as sha256} from "crypto-js";
 import {NextResponse} from "next/server";
-import {hashPassword} from "../sign-up/route";
+import bcrypt from "bcryptjs";
+import {db} from "@/lib/db";
 import {createJWTandCookie} from "@/lib/JWTandCookie";
+
+const comparePasswordHash = async (password: string, userPassword: string) => {
+  const isMatch = await bcrypt.compare(password, userPassword as string);
+  return isMatch;
+};
 
 export async function POST(req: Request) {
   try {
@@ -16,7 +20,7 @@ export async function POST(req: Request) {
         email,
       },
     });
-    if (user && user.password === hashPassword(password))
+    if (user && (await comparePasswordHash(password, user.password)))
       return new NextResponse("Invaild details", {status: 400});
 
     createJWTandCookie(user?.id!);

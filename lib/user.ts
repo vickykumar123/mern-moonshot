@@ -2,7 +2,7 @@ import {cookies} from "next/headers";
 import {verifyJWT} from "./JWTandCookie";
 import {db} from "./db";
 
-export async function getUser() {
+export async function getCurrentUser() {
   const session = cookies().get("token")?.value;
   if (!session) return;
   const userId = verifyJWT(session!);
