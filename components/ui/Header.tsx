@@ -11,7 +11,7 @@ export default function Header() {
             <span>Hi, John</span>
           </div>
           <div className="flex items-center justify-between">
-            <div className="text-[32px] font-[700]">Ecommerce</div>
+            <div className="text-[32px] font-[700] uppercase">Ecommerce</div>
             <div className="space-x-12 flex items-center justify-between text-[16px] font-[600]">
               <span>Categories</span>
               <span>Sale</span>

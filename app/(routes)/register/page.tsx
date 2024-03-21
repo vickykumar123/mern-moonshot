@@ -33,23 +33,26 @@ function SignIn() {
     }
   }
   return (
-    <div className="flex justify-center items-center m-auto p-3">
+    <div className="w-full flex items-center justify-center p-3 mt-4 box-border">
       <form
         onSubmit={handleSubmit}
-        className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
+        className="bg-white shadow-md px-8 pt-6 pb-8 mb-4 h-[691px] w-[576px] rounded-[20px] border-[1px] border-[#C1C1C1] space-y-10 flex flex-col items-center"
       >
-        <div className="mb-4">
+        <h2 className="text-center text-[32px] font-[600]">
+          Create your account
+        </h2>
+        <div className=" h-[74px]">
           <label
-            className="block text-gray-700 text-sm font-bold mb-2"
+            className="  text-[16px] font-[400] mb-2 flex flex-col"
             htmlFor="name"
           >
             Name
           </label>
           <input
-            className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline`}
+            className={`shadow appearance-none border-[1px] border-[#C1C1C1] rounded-[6px] w-[456px] py-2 px-3  leading-tight focus:outline-none focus:shadow-outline`}
             id="name"
             type="text"
-            placeholder="name"
+            placeholder="Name"
             onChange={(e) => {
               setName(e.target.value);
             }}
@@ -58,13 +61,13 @@ function SignIn() {
 
         <div className="mb-4">
           <label
-            className="block text-gray-700 text-sm font-bold mb-2"
+            className="  text-[16px] font-[400] mb-2 flex flex-col"
             htmlFor="email"
           >
             Email
           </label>
           <input
-            className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline`}
+            className={`shadow appearance-none border-[1px] border-[#C1C1C1] rounded-[6px] w-[456px] py-2 px-3  leading-tight focus:outline-none focus:shadow-outline`}
             id="email"
             type="email"
             placeholder="Email"
@@ -75,13 +78,13 @@ function SignIn() {
         </div>
         <div className="mb-6">
           <label
-            className="block text-gray-700 text-sm font-bold mb-2"
+            className="  text-[16px] font-[400] mb-2 flex flex-col"
             htmlFor="password"
           >
             Password
           </label>
           <input
-            className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline`}
+            className={`shadow appearance-none border-[1px] border-[#C1C1C1] rounded-[6px] w-[456px] py-2 px-3  leading-tight focus:outline-none focus:shadow-outline`}
             id="password"
             type="password"
             placeholder="***********"
@@ -93,16 +96,18 @@ function SignIn() {
 
         <div className="flex items-center justify-between">
           <button
-            className="bg-blue-500  hover:bg-blue-700 text-white font-bold py-2  px-4 rounded  focus:outline-none  focus:shadow-outline"
+            className="bg-black text-white  p-2 rounded-md uppercase w-[456px]"
             type="submit"
           >
-            Sign Up
+            Create Account
           </button>
+        </div>
+        <div>
           <Link
             href="/login"
-            className="bg-blue-500  hover:bg-blue-700 text-white font-bold py-2  px-4 rounded  focus:outline-none  focus:shadow-outline"
+            className="text-center text-[16px] font-[400] hover:underline"
           >
-            Login
+            Have an Account? <span className="font-[500]">LOGIN</span>
           </Link>
         </div>
       </form>
