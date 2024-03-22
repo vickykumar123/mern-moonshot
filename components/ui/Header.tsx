@@ -1,6 +1,12 @@
+import {getCurrentUser} from "@/lib/user";
 import {Search, ShoppingCart} from "lucide-react";
+import {redirect} from "next/navigation";
 
-export default function Header() {
+export default async function Header() {
+  const user = await getCurrentUser();
+  if (!user) {
+    return redirect("/register");
+  }
   return (
     <header>
       <nav className="flex justify-between items-center h-[100px] box-border p-12">
@@ -8,7 +14,7 @@ export default function Header() {
           <div className="flex justify-end space-x-3">
             <span>Help</span>
             <span>Orders & Return</span>
-            <span>Hi, John</span>
+            <span className="capitalize">Hi, {user.name || "User"}</span>
           </div>
           <div className="flex items-center justify-between">
             <div className="text-[32px] font-[700] uppercase">Ecommerce</div>

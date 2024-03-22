@@ -40,7 +40,7 @@ export default function Pagination({totalPages}: IPagination) {
 
   return (
     <>
-      <div className="flex items-center justify-between space-x-3">
+      <div className="flex items-center mx-auto space-x-3 w-[293px] h-[26px] ">
         <button className="hover:bg-gray-300/30 p-1 rounded-md">
           <Link
             href={createPageURL(currentPage - 2)}
@@ -66,13 +66,16 @@ export default function Pagination({totalPages}: IPagination) {
           </Link>
         </button>
         {currentPage >= 0 && (
-          <Link className="cursor-pointer" href={createPageURL(currentPage)}>
+          <Link
+            className="cursor-pointer font-bold scale-110"
+            href={createPageURL(currentPage)}
+          >
             {currentPage + 1}
           </Link>
         )}
         {currentPage <= totalPages - 2 && (
           <Link
-            className="cursor-pointer"
+            className="cursor-pointer text-gray-600"
             href={createPageURL(currentPage + 1)}
           >
             {currentPage + 2}
@@ -80,7 +83,7 @@ export default function Pagination({totalPages}: IPagination) {
         )}
         {currentPage < totalPages - 2 && (
           <Link
-            className="cursor-pointer"
+            className="cursor-pointer text-gray-600"
             href={createPageURL(currentPage + 2)}
           >
             {currentPage + 3}
