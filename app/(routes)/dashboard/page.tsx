@@ -12,7 +12,7 @@ export default async function Dashboard({
   searchParams: {page: string};
 }) {
   const user = await getCurrentUser();
-  // await createCategory();
+  await createCategory();
 
   const offset = parseInt(searchParams.page) * PAGE_LIMIT || 0;
   const {totalPages, totalCount, data} = await getCategory({
