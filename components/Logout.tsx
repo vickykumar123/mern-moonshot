@@ -9,6 +9,7 @@ export default function Logout() {
         method: "POST",
       });
       router.replace("/register");
+      router.refresh();
     } catch (error) {
       console.log(error);
     }

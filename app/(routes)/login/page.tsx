@@ -30,6 +30,7 @@ function Login() {
       const data = await res.json();
       if (data) {
         router.push("/dashboard");
+        router.refresh();
       }
     } catch (err) {
       console.log(err);
