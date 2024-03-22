@@ -1,4 +1,4 @@
-import {createJWTandCookie} from "@/lib/JWTandCookie";
+import {createJWTandCookie} from "@/lib/session";
 import {db} from "@/lib/db";
 import bcrypt from "bcryptjs";
 import {NextResponse} from "next/server";

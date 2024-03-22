@@ -1,5 +1,5 @@
 import {cookies} from "next/headers";
-import {verifyJWT} from "./JWTandCookie";
+import {verifyJWT} from "./session";
 import {db} from "./db";
 
 export async function getCurrentUser() {

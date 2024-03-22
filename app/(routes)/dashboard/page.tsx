@@ -1,9 +1,8 @@
 import Categories from "@/components/Categories";
-import Pagination from "@/components/Pagination";
 import {createCategory} from "@/lib/categoryData";
 import {getCategory} from "@/lib/pagination";
 import {getCurrentUser} from "@/lib/user";
-import {useEffect} from "react";
+import {redirect} from "next/navigation";
 
 const PAGE_LIMIT = 6;
 export default async function Dashboard({
@@ -13,6 +12,9 @@ export default async function Dashboard({
 }) {
   const user = await getCurrentUser();
   // await createCategory();
+  if (!user) {
+    return redirect("/register");
+  }
 
   const offset = parseInt(searchParams.page) * PAGE_LIMIT || 0;
   const {totalPages, totalCount, data} = await getCategory({

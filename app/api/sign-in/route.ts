@@ -1,7 +1,7 @@
 import {NextResponse} from "next/server";
 import bcrypt from "bcryptjs";
 import {db} from "@/lib/db";
-import {createJWTandCookie} from "@/lib/JWTandCookie";
+import {createJWTandCookie} from "@/lib/session";
 
 const comparePasswordHash = async (password: string, userPassword: string) => {
   const isMatch = await bcrypt.compare(password, userPassword as string);

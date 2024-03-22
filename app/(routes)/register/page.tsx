@@ -32,7 +32,7 @@ function SignIn() {
 
       const data = await res.json();
       if (data) {
-        router.push("/dashboard");
+        router.push("/verify_email");
       }
     } catch (err) {
       console.log(err);
