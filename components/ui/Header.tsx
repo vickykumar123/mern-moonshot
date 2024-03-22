@@ -1,6 +1,6 @@
 import {getCurrentUser} from "@/lib/user";
 import {Search, ShoppingCart} from "lucide-react";
-import {redirect} from "next/navigation";
+import Logout from "../Logout";
 
 export default async function Header() {
   const user = await getCurrentUser();
@@ -12,6 +12,7 @@ export default async function Header() {
             <span>Help</span>
             <span>Orders & Return</span>
             <span className="capitalize">Hi, {user?.name || "User"}</span>
+            {user && <Logout />}
           </div>
           <div className="flex items-center justify-between">
             <div className="text-[32px] font-[700] uppercase">Ecommerce</div>

@@ -2,6 +2,11 @@ import {getCurrentUser} from "@/lib/user";
 import Link from "next/link";
 import {redirect} from "next/navigation";
 
+const obscureEmail = (email: string) => {
+  const [name, domain] = email.split("@");
+  return `${name.slice(0, 3)}${new Array(name.length).join("*")}@${domain}`;
+};
+
 export default async function VerifyEmail() {
   const user = await getCurrentUser();
   if (!user) {
@@ -14,7 +19,8 @@ export default async function VerifyEmail() {
           <section>Verify your email</section>
           <section>
             <p className="text-[16px] font-[500] w-[334px] mx-auto">
-              Enter the 8 digit code you have received on email@gmail.com
+              Enter the 8 digit code you have received on{" "}
+              {obscureEmail(user.email as string)}
             </p>
           </section>
         </div>
