@@ -1,6 +1,11 @@
 "use client";
 
-import {ChevronLeft, ChevronRight} from "lucide-react";
+import {
+  ChevronLeft,
+  ChevronRight,
+  ChevronsLeft,
+  ChevronsRight,
+} from "lucide-react";
 import Link from "next/link";
 import {usePathname, useSearchParams} from "next/navigation";
 import {useRouter} from "next/navigation";
@@ -38,6 +43,18 @@ export default function Pagination({totalPages}: IPagination) {
       <div className="flex items-center justify-between space-x-3">
         <button className="hover:bg-gray-300/30 p-1 rounded-md">
           <Link
+            href={createPageURL(currentPage - 2)}
+            className={
+              currentPage - 2 < 0
+                ? `pointer-events-none opacity-50 flex`
+                : "flex"
+            }
+          >
+            <ChevronsLeft />
+          </Link>
+        </button>
+        <button className="hover:bg-gray-300/30 p-1 rounded-md">
+          <Link
             href={createPageURL(currentPage - 1)}
             className={
               currentPage - 1 < 0
@@ -45,9 +62,30 @@ export default function Pagination({totalPages}: IPagination) {
                 : "flex"
             }
           >
-            <ChevronLeft /> Previous
+            <ChevronLeft />
           </Link>
         </button>
+        {currentPage >= 0 && (
+          <Link className="cursor-pointer" href={createPageURL(currentPage)}>
+            {currentPage + 1}
+          </Link>
+        )}
+        {currentPage <= totalPages - 2 && (
+          <Link
+            className="cursor-pointer"
+            href={createPageURL(currentPage + 1)}
+          >
+            {currentPage + 2}
+          </Link>
+        )}
+        {currentPage < totalPages - 2 && (
+          <Link
+            className="cursor-pointer"
+            href={createPageURL(currentPage + 2)}
+          >
+            {currentPage + 3}
+          </Link>
+        )}
         <button className="hover:bg-gray-300/30 p-1 rounded-md">
           <Link
             href={createPageURL(currentPage + 1)}
@@ -57,7 +95,19 @@ export default function Pagination({totalPages}: IPagination) {
                 : "flex"
             }
           >
-            Next <ChevronRight />
+            <ChevronRight />
+          </Link>
+        </button>
+        <button className="hover:bg-gray-300/30 p-1 rounded-md">
+          <Link
+            href={createPageURL(currentPage + 2)}
+            className={
+              currentPage >= totalPages - 2
+                ? `pointer-events-none opacity-50 flex cursor-not-allowed`
+                : "flex"
+            }
+          >
+            <ChevronsRight />
           </Link>
         </button>
       </div>

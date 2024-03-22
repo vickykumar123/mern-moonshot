@@ -62,7 +62,7 @@ export default function Categories({
               defaultChecked={interestedIn.includes(category.name)}
               name={category.name}
               onChange={handleChange}
-              className="appearance-none w-[24px] h-[24px] rounded-[4px]  bg-[#CCCCCC]  border-gray-300 checked:bg-black"
+              className=" appearance-none w-[24px] h-[24px] rounded-[4px]  bg-[#CCCCCC] checked:block border-gray-300 checked:bg-black"
             />
             <label htmlFor={category.id} className="text-[16px] font-[400]">
               {category.name}
