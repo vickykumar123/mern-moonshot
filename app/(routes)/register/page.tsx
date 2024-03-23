@@ -71,31 +71,11 @@ function SignIn() {
           }}
         />
 
-        <div className="mb-6">
-          <label
-            className="  text-[16px] font-[400] mb-2 flex flex-col"
-            htmlFor="password"
-          >
-            Password
-          </label>
-          <div className="relative w-full">
-            <input
-              className={`  shadow appearance-none border-[1px] border-[#C1C1C1] rounded-[6px] w-[459px] py-2 px-3  leading-tight focus:outline-none focus:shadow-outline`}
-              id="password"
-              type={typePassword}
-              placeholder="***********"
-              onChange={(e) => {
-                setPassword(e.target.value);
-              }}
-            />
-            <span
-              className="absolute right-2 top-2 underline cursor-pointer"
-              onClick={handlePasswordToggle}
-            >
-              {typePassword === "password" ? "Show" : "Hide"}
-            </span>
-          </div>
-        </div>
+        <Input
+          label="Password"
+          onChange={(e) => setPassword(e.target.value)}
+          isPasswordInput={true}
+        />
 
         <div className="flex items-center justify-between">
           <button

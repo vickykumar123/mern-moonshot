@@ -24,7 +24,13 @@ export async function POST(req: Request) {
       return new NextResponse("Invaild details", {status: 400});
 
     createJWTandCookie(user?.id!);
-    return NextResponse.json(user);
+    const currentUser = {
+      name: user?.name,
+      email: user?.email,
+      interestedIn: user?.interestedIn,
+      isEmailVerified: user?.isEmailVerified,
+    };
+    return NextResponse.json(currentUser);
   } catch (err) {
     return new NextResponse("Sign-in Error", {status: 500});
   }
