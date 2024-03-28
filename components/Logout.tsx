@@ -1,18 +1,17 @@
 "use client";
+import {trpc} from "@/trpc/client";
 import {useRouter} from "next/navigation";
 
 export default function Logout() {
   const router = useRouter();
-  async function handleLogout() {
-    try {
-      await fetch("/api/logout", {
-        method: "POST",
-      });
+  const {mutate} = trpc.auth.logout.useMutation({
+    onSuccess: () => {
       router.replace("/register");
       router.refresh();
-    } catch (error) {
-      console.log(error);
-    }
+    },
+  });
+  async function handleLogout() {
+    mutate();
   }
   return (
     <button onClick={handleLogout} className="hover:underline">

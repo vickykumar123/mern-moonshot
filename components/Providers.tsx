@@ -9,9 +9,9 @@ import {ReactQueryDevtools} from "@tanstack/react-query-devtools";
 
 const Providers = ({children}: {children: React.ReactNode}) => {
   const [queryClient] = useState(() => new QueryClient());
-  //   const url = process.env.NEXT_PUBLIC_VERCEL_URL
-  //     ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`
-  //     : "http://localhost:3000/api/trpc/";
+  const url = process.env.NEXT_PUBLIC_VERCEL_URL
+    ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`
+    : "http://localhost:3000/api/trpc/";
   const [trpcClient] = useState(() =>
     trpc.createClient({
       links: [
@@ -19,18 +19,12 @@ const Providers = ({children}: {children: React.ReactNode}) => {
           enabled: () => true,
         }),
         httpBatchLink({
-          url: `${process.env.NEXT_PUBLIC_SERVER_URL}/api/trpc`,
+          url,
           fetch: async (input, init?) => {
             const fetch = getFetch();
             return fetch(input, {
               ...init,
-              mode: "no-cors",
               credentials: "include",
-              headers: {
-                "Access-Control-Allow-Origin": "*",
-                "Access-Control-Allow-Headers": "Content-Type",
-                "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE",
-              },
             });
           },
         }),
