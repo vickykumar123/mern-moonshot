@@ -41,18 +41,22 @@ export default function Pagination({totalPages}: IPagination) {
   return (
     <>
       <div className="flex items-center mx-auto space-x-3 w-[293px] h-[26px] ">
-        <button className="hover:bg-gray-300/30 p-1 rounded-md">
+        <button
+          className="hover:bg-gray-300/30 p-1 rounded-md disabled:cursor-not-allowed"
+          disabled={currentPage - 2 < 0}
+        >
           <Link
             href={createPageURL(currentPage - 2)}
             className={
               currentPage - 2 < 0
-                ? `pointer-events-none opacity-50 flex`
+                ? `pointer-events-none opacity-50 flex disabled:cursor-not-allowed`
                 : "flex"
             }
           >
             <ChevronsLeft />
           </Link>
         </button>
+
         <button className="hover:bg-gray-300/30 p-1 rounded-md">
           <Link
             href={createPageURL(currentPage - 1)}
@@ -101,12 +105,16 @@ export default function Pagination({totalPages}: IPagination) {
             <ChevronRight />
           </Link>
         </button>
-        <button className="hover:bg-gray-300/30 p-1 rounded-md">
+
+        <button
+          className="hover:bg-gray-300/30 p-1 rounded-md"
+          disabled={currentPage >= totalPages - 2}
+        >
           <Link
             href={createPageURL(currentPage + 2)}
             className={
               currentPage >= totalPages - 2
-                ? `pointer-events-none opacity-50 flex cursor-not-allowed`
+                ? `pointer-events-none opacity-50 flex disable:cursor-not-allowed`
                 : "flex"
             }
           >

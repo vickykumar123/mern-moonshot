@@ -11,13 +11,13 @@ function Login() {
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
-  const {mutate} = trpc.signIn.useMutation({
+  const {mutate} = trpc.auth.signIn.useMutation({
     onSuccess: () => {
       router.push("/dashboard");
       router.refresh();
     },
     onError: (err) => {
-      console.log(err);
+      console.log(err.message);
     },
   });
 

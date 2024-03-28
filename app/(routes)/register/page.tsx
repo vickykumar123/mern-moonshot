@@ -13,7 +13,7 @@ function SignIn() {
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
-  const {mutate} = trpc.signUp.useMutation({
+  const {mutate} = trpc.auth.signUp.useMutation({
     onSuccess: (data) => {
       console.log(data);
       router.push("/verify_email");

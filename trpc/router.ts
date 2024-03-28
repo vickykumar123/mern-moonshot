@@ -1,59 +1,62 @@
-import {db} from "@/lib/db";
+import {getCurrentUser} from "@/lib/user";
+import {authRouter} from "./authRouter";
 import {publicProcedure, router} from "./trpc";
 import * as z from "zod";
-import {comparePasswordHash, hashPassword} from "@/lib/hashPassword";
-import {createJWTandCookie} from "@/lib/session";
+import {TRPCError} from "@trpc/server";
+import {db} from "@/lib/db";
 
 export const appRouter = router({
-  signUp: publicProcedure
+  auth: authRouter,
+  category: publicProcedure
     .input(
       z.object({
-        name: z.string(),
-        email: z.string().email(),
-        password: z.string(),
+        category: z.string().array(),
       })
     )
     .mutation(async ({input}) => {
-      const {name, email, password} = input;
-      const passwordHash = await hashPassword(password);
-      const user = await db.user.create({
+      const currentUser = await getCurrentUser();
+      if (!currentUser) {
+        throw new TRPCError({
+          code: "UNAUTHORIZED",
+          message: "You are not logged in",
+        });
+      }
+
+      const {category} = input;
+      const user = await db.user.update({
+        where: {id: currentUser.id},
         data: {
-          name,
-          email,
-          password: passwordHash,
-          interestedIn: [],
+          interestedIn: {
+            set: category,
+          },
+        },
+        select: {
+          name: true,
+          interestedIn: true,
+          email: true,
+          password: false,
         },
       });
-
-      createJWTandCookie(user?.id);
       return user;
     }),
-  signIn: publicProcedure
+  getCategory: publicProcedure
     .input(
       z.object({
-        email: z.string().email(),
-        password: z.string(),
+        offset: z.number().default(0),
+        limit: z.number().default(6),
       })
     )
-    .mutation(async ({input}) => {
-      const {email, password} = input;
-      const user = await db.user.findUnique({
-        where: {
-          email,
-        },
+    .query(async ({input}) => {
+      const {offset, limit} = input;
+      const categories = await db.category.findMany({
+        skip: offset,
+        take: limit,
       });
 
-      if (!user) throw new Error("User doesn't exists");
-      if (user && (await comparePasswordHash(password, user.password)))
-        throw new Error("Password doesnt match");
-      createJWTandCookie(user?.id!);
-      const currentUser = {
-        name: user?.name,
-        email: user?.email,
-        interestedIn: user?.interestedIn,
-        isEmailVerified: user?.isEmailVerified,
-      };
-      return currentUser;
+      const totalCount = await db.category.count();
+      const totalPages = Math.ceil(totalCount / limit);
+
+      return {categories, totalCount, totalPages};
     }),
 });
 
