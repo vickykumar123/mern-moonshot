@@ -10,10 +10,9 @@ function SignIn() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
-  const {mutate} = trpc.auth.signUp.useMutation({
+  const {mutate, isPending} = trpc.auth.signUp.useMutation({
     onSuccess: (data) => {
       console.log(data);
       router.push("/verify_email");
@@ -22,6 +21,8 @@ function SignIn() {
       console.log(err);
     },
   });
+
+  const isLoading = isPending;
 
   async function handleSubmit(e: React.FormEvent<EventTarget>) {
     e.preventDefault();

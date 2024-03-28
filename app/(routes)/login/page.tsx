@@ -9,9 +9,8 @@ import React, {useState} from "react";
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
-  const {mutate} = trpc.auth.signIn.useMutation({
+  const {mutate, isPending} = trpc.auth.signIn.useMutation({
     onSuccess: () => {
       router.push("/dashboard");
       router.refresh();
@@ -20,6 +19,8 @@ function Login() {
       console.log(err.message);
     },
   });
+
+  const isLoading = isPending;
 
   async function handleSubmit(e: React.FormEvent<EventTarget>) {
     e.preventDefault();
