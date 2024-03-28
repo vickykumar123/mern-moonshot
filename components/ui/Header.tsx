@@ -1,9 +1,11 @@
 import {getCurrentUser} from "@/lib/user";
 import {Search, ShoppingCart} from "lucide-react";
 import Logout from "../Logout";
+import {trpc} from "@/trpc/client";
 
 export default async function Header() {
   const user = await getCurrentUser();
+
   return (
     <header>
       <nav className="flex justify-between items-center h-[100px] box-border p-12">

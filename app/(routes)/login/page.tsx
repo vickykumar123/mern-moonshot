@@ -1,6 +1,7 @@
 "use client";
 
 import Input from "@/components/ui/Input";
+import {trpc} from "@/trpc/client";
 import Link from "next/link";
 import {useRouter} from "next/navigation";
 import React, {useState} from "react";
@@ -10,6 +11,15 @@ function Login() {
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
+  const {mutate} = trpc.signIn.useMutation({
+    onSuccess: () => {
+      router.push("/dashboard");
+      router.refresh();
+    },
+    onError: (err) => {
+      console.log(err);
+    },
+  });
 
   async function handleSubmit(e: React.FormEvent<EventTarget>) {
     e.preventDefault();
@@ -17,27 +27,7 @@ function Login() {
       email,
       password,
     };
-    try {
-      setIsLoading(true);
-      const res = await fetch("/api/sign-in", {
-        method: "POST",
-        body: JSON.stringify(userData),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-
-      const data = await res.json();
-      if (data) {
-        router.push("/dashboard");
-        router.refresh();
-      }
-    } catch (err) {
-      console.log(err);
-    } finally {
-      setIsLoading(false);
-    }
-    // Make call to backend to create user
+    mutate(userData);
   }
 
   return (

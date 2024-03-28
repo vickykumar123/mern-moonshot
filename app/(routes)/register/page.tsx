@@ -1,6 +1,7 @@
 "use client";
 
 import Input from "@/components/ui/Input";
+import {trpc} from "@/trpc/client";
 import Link from "next/link";
 import {useRouter} from "next/navigation";
 import React, {useState} from "react";
@@ -9,9 +10,18 @@ function SignIn() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [typePassword, setTypePassword] = useState("password");
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
+
+  const {mutate} = trpc.signUp.useMutation({
+    onSuccess: (data) => {
+      console.log(data);
+      router.push("/verify_email");
+    },
+    onError: (err) => {
+      console.log(err);
+    },
+  });
 
   async function handleSubmit(e: React.FormEvent<EventTarget>) {
     e.preventDefault();
@@ -20,35 +30,9 @@ function SignIn() {
       email,
       password,
     };
-    try {
-      setIsLoading(true);
-      const res = await fetch("/api/sign-up", {
-        method: "POST",
-        body: JSON.stringify(userData),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-
-      const data = await res.json();
-      if (data) {
-        router.push("/verify_email");
-      }
-    } catch (err) {
-      console.log(err);
-    } finally {
-      setIsLoading(false);
-    }
-    // Make call to backend to create user
+    mutate(userData);
   }
 
-  function handlePasswordToggle() {
-    if (typePassword === "password") {
-      setTypePassword("text");
-    } else {
-      setTypePassword("password");
-    }
-  }
   return (
     <div className="w-full flex items-center justify-center p-3 mt-4 box-border">
       <form
