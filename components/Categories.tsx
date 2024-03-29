@@ -2,6 +2,7 @@
 import {useEffect, useState} from "react";
 import Pagination from "./Pagination";
 import {trpc} from "@/trpc/client";
+import {debounce} from "@/lib/debounce";
 
 interface Data {
   id: string;
@@ -38,7 +39,7 @@ export default function Categories({
 
   useEffect(() => {
     async function addCategory() {
-      mutate({category: interestedCategory});
+      debounce(mutate({category: interestedCategory}) as any, 300);
     }
     addCategory();
   }, [interestedCategory, mutate]);
