@@ -12,7 +12,7 @@ const Providers = ({children}: {children: React.ReactNode}) => {
     trpc.createClient({
       links: [
         loggerLink({
-          enabled: () => true,
+          enabled: () => false,
         }),
         httpBatchLink({
           url: `${process.env.NEXT_PUBLIC_SERVER_URL}/api/trpc`,
