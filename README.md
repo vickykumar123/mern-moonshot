@@ -1,4 +1,4 @@
-# Turnover.biz
+# MERN Moon
 
 Web application built with Next.js 14, TypeScript, and Prisma, utilizing PostgreSQL as the database.
 
@@ -37,7 +37,7 @@ Alternatively, you can sign up with your own credentials.
 
 ## Live Demo
 
-You can also access a live demo of the application hosted on [https://turnover-biz.vercel.app/](https://turnover-biz.vercel.app/).
+You can also access a live demo of the application hosted on [(https://mern-moonshot.vercel.app/)](https://mern-moonshot.vercel.app/).
 
 ## Technologies Used
 
